@@ -2,7 +2,8 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const path = require('path')
-var cors = require('cors')
+const uuid = require('uuid')
+const cors = require('cors')
 const port = 3000
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -17,15 +18,30 @@ app.use(express.static(clientDir))
 // Data modell MOCK
 // TODO: MongoDB
 const Serieses = [
-  { name: 'KonoSuba', id: 2, thumb: 'https://blacknerdproblems.com/wp-content/uploads/2016/04/Konosuba.jpg' },
-  { name: 'Steins;Gate', id: 3, thumb: 'https://i.redd.it/dvm703m3baf01.jpg' }
+  { name: 'KonoSuba', id: '22GfdbdanUWDd2D', thumb: 'https://blacknerdproblems.com/wp-content/uploads/2016/04/Konosuba.jpg', VideoFiles: [] },
+  { name: 'Steins;Gate', id: 'llA2D32kd@', thumb: 'https://i.redd.it/dvm703m3baf01.jpg', VideoFiles: [] }
 ]
 
 // Routes
 
+app.post('/upload/add', (req, res) => {
+  // get the json from the client here
+  const newSeries = JSON.parse(req.body)
+
+  // create new obj to store
+  const obj = {
+    name: newSeries.name,
+    description: newSeries.description,
+    id: uuid.v4(),
+    thumb: newSeries.thumb,
+    VideoFiles: []
+  }
+  Serieses.push(obj)
+})
+
 // Get a specific object by its id
 app.get('/serieses/:id', (req, res) => {
-  const id = parseInt(req.params.id)
+  const id = req.params.id
   const obj = Serieses.find(obj => obj.id === id)
   res.setHeader('Content-Type', 'application/json')
   res.json(obj)
