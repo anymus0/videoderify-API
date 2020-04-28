@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const path = require('path')
+const fs = require('fs-extra')
 const uuid = require('uuid')
 const cors = require('cors')
 const port = 3000
@@ -11,9 +12,8 @@ app.use(bodyParser.json())
 app.use(cors())
 
 // Static folder
-const clientDir = path.join(__dirname, './../../assets')
-// const mediaAdress = path.join(`http://localhost:${port}/`, clientDir)
-app.use(express.static(clientDir))
+const mediaDir = path.join(path.resolve(), 'media')
+app.use(express.static(mediaDir))
 
 // Data modell MOCK
 // TODO: MongoDB
@@ -22,11 +22,29 @@ const Serieses = [
   { name: 'Steins;Gate', id: 'llA2D32kd@', thumb: 'https://i.redd.it/dvm703m3baf01.jpg', VideoFiles: [] }
 ]
 
+// fs methods
+const selectDirbyName = (name) => {
+  const __dirname = path.join(path.resolve(), 'media', name)
+  return __dirname
+}
+
+const newSeriesDir = async dirName => {
+  try {
+    await fs.ensureDir(dirName)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 // Routes
 
 app.post('/upload/add', (req, res) => {
-  // get the json from the client here
-  const newSeries = JSON.parse(req.body)
+  // get the json from the client
+  const newSeries = req.body
+
+  // define directory paths for the new series
+  const NewDirPath = selectDirbyName(newSeries.name)
+  const DirPathToStore = path.join('media', newSeries.name)
 
   // create new obj to store
   const obj = {
@@ -34,9 +52,20 @@ app.post('/upload/add', (req, res) => {
     description: newSeries.description,
     id: uuid.v4(),
     thumb: newSeries.thumb,
-    VideoFiles: []
+    mediaDirectory: DirPathToStore
   }
-  Serieses.push(obj)
+
+  // create new dir and save obj if dir does not exist
+  fs.pathExists(NewDirPath).then(exists => {
+    if (exists) {
+      obj.mediaDirectory = false
+    } else {
+      newSeriesDir(NewDirPath)
+      Serieses.push(obj)
+    }
+    // send back the obj, if dir could not be crated then let the client handle the error
+    res.json(obj)
+  })
 })
 
 // Get a specific object by its id
