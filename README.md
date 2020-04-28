@@ -1,6 +1,8 @@
 # videoderify-API
 This is the API for my video sharing platform: Videoderify 
 
+You can find the [client here](https://github.com/anymus0/videoderify-client/)!
+
 ### TODOS: 
 - handle uploaded files from the client
 - expose API only to the client's domain / implement API access (API keys or something)
