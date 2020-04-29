@@ -1,12 +1,13 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const path = require('path')
-const fs = require('fs-extra')
+// const fs = require('fs-extra')
 const uuid = require('uuid')
 const cors = require('cors')
 const port = 3000
-app.use(bodyParser.urlencoded({ extended: false }))
+const path = require('path')
+var multer = require('multer')
+// app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 // CORS
 app.use(cors())
@@ -22,29 +23,23 @@ const Serieses = [
   { name: 'Steins;Gate', id: 'llA2D32kd@', thumb: 'https://i.redd.it/dvm703m3baf01.jpg', VideoFiles: [] }
 ]
 
-// fs methods
-const selectDirbyName = (name) => {
-  const __dirname = path.join(path.resolve(), 'media', name)
-  return __dirname
-}
-
-const newSeriesDir = async dirName => {
-  try {
-    await fs.ensureDir(dirName)
-  } catch (err) {
-    console.error(err)
+// STORAGE UPLOAD
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, mediaDir)
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname)
   }
-}
+})
+var upload = multer({ storage: storage })
 
 // Routes
 
-app.post('/upload/add', (req, res) => {
+app.post('/upload/add', upload.array('Files'), (req, res) => {
   // get the json from the client
   const newSeries = req.body
-
-  // define directory paths for the new series
-  const NewDirPath = selectDirbyName(newSeries.name)
-  const DirPathToStore = path.join('media', newSeries.name)
+  const Files = req.files
 
   // create new obj to store
   const obj = {
@@ -52,20 +47,18 @@ app.post('/upload/add', (req, res) => {
     description: newSeries.description,
     id: uuid.v4(),
     thumb: newSeries.thumb,
-    mediaDirectory: DirPathToStore
+    Files: []
   }
-
-  // create new dir and save obj if dir does not exist
-  fs.pathExists(NewDirPath).then(exists => {
-    if (exists) {
-      obj.mediaDirectory = false
-    } else {
-      newSeriesDir(NewDirPath)
-      Serieses.push(obj)
-    }
-    // send back the obj, if dir could not be crated then let the client handle the error
-    res.json(obj)
+  // save every files into the obj.Files array in order to store the files' data
+  Files.forEach(file => {
+    // remove server paths the client shouldn't know
+    delete file.path
+    delete file.destination
+    obj.Files.push(file)
   })
+
+  Serieses.push(obj)
+  res.json(obj)
 })
 
 // Get a specific object by its id
