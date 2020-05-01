@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-// const fs = require('fs-extra')
+const fs = require('fs-extra')
 const uuid = require('uuid')
 const cors = require('cors')
 const port = 3000
@@ -12,9 +12,7 @@ app.use(bodyParser.json())
 // CORS
 app.use(cors())
 
-// Static folder
 const mediaDir = path.join(path.resolve(), 'media')
-app.use(express.static(mediaDir))
 
 // Data modell MOCK
 // TODO: MongoDB
@@ -36,6 +34,7 @@ var upload = multer({ storage: storage })
 
 // Routes
 
+// Process a new series uploaded from the client
 app.post('/upload/add', upload.array('Files'), (req, res) => {
   // get the json from the client
   const newSeries = req.body
@@ -59,6 +58,46 @@ app.post('/upload/add', upload.array('Files'), (req, res) => {
 
   Serieses.push(obj)
   res.json(obj)
+})
+
+// Stream a requested video file
+app.get('/video/:fileName', (req, res) => {
+  const Path = path.join(mediaDir, req.params.fileName)
+  const stat = fs.statSync(Path)
+  const fileSize = stat.size
+  const range = req.headers.range
+
+  if (range) {
+    const parts = range.replace(/bytes=/, '').split('-')
+    const start = parseInt(parts[0], 10)
+    const end = parts[1]
+      ? parseInt(parts[1], 10)
+      : fileSize - 1
+
+    if (start >= fileSize) {
+      res.status(416).send('Requested range not satisfiable\n' + start + ' >= ' + fileSize)
+      return
+    }
+
+    const chunksize = (end - start) + 1
+    const file = fs.createReadStream(Path, { start, end })
+    const head = {
+      'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+      'Accept-Ranges': 'bytes',
+      'Content-Length': chunksize,
+      'Content-Type': 'video/mp4'
+    }
+
+    res.writeHead(206, head)
+    file.pipe(res)
+  } else {
+    const head = {
+      'Content-Length': fileSize,
+      'Content-Type': 'video/mp4'
+    }
+    res.writeHead(200, head)
+    fs.createReadStream(Path).pipe(res)
+  }
 })
 
 // Get a specific object by its id
