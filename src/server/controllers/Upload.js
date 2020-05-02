@@ -1,4 +1,3 @@
-// import the model (tmp database)
 const Series = require('../models/Series')
 const mongoose = require('mongoose')
 
@@ -15,7 +14,7 @@ exports.uploadSeries = async (req, res, next) => {
       // if it doesn't exist create a new one, populate it and save it
     } else {
       const newSeries = new Series({
-        id: new mongoose.Types.ObjectId(),
+        _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         description: req.body.description,
         thumb: req.body.thumb,
