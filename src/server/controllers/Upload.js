@@ -33,7 +33,10 @@ exports.uploadSeries = async (req, res, next) => {
         message: 'Series was created and saved!'
       })
     }
-  } catch (error) {
-    return next(error)
+  } catch {
+    res.status(507).json({
+      status: false,
+      message: 'Something went wrong!'
+    })
   }
 }

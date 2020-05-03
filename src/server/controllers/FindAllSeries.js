@@ -7,6 +7,9 @@ exports.FindAllSeries = async (req, res) => {
     res.json(objArr)
     return objArr
   } catch (error) {
-    return error
+    res.status(404).json({
+      status: false,
+      message: 'Something went wrong!'
+    })
   }
 }

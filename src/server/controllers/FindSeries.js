@@ -6,7 +6,10 @@ exports.FindSeriesbyID = async (req, res) => {
     res.setHeader('Content-Type', 'application/json')
     res.json(series)
     return series
-  } catch (error) {
-    return error
+  } catch {
+    res.status(404).json({
+      status: false,
+      message: 'Something went wrong!'
+    })
   }
 }
