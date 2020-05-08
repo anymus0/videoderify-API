@@ -25,6 +25,7 @@ exports.uploadSeries = async (req, res, next) => {
         // remove server paths the client shouldn't know
         delete file.path
         delete file.destination
+        delete file.originalname
         newSeries.Files.push(file)
       })
       await newSeries.save()

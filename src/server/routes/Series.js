@@ -8,6 +8,8 @@ const uploadController = require('./../controllers/Upload')
 const streamController = require('./../controllers/VideoStream')
 const findSeriesController = require('./../controllers/FindSeries')
 const findAllSeriesController = require('./../controllers/FindAllSeries')
+const downloadSingle = require('./../controllers/DownloadSingle')
+const downloadAll = require('./../controllers/DownloadAll')
 
 router.use(cors())
 
@@ -18,13 +20,19 @@ const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, mediaDir)
   },
-  filename: function (req, file, cb) {
-    cb(null, `${Date.now()}-${file.originalname}`)
+  filename: function (req, file, cb) { // space_stripped_str = original_str.replace(/\s/g,'')
+    cb(null, `${Date.now()}-${file.originalname.replace(/\s/g, '')}`)
   }
 })
 const upload = multer({ storage: storage })
 
 // Routes
+
+// Downloads all videos in a series
+router.get('/download/all/:id', downloadAll.DownloadAll)
+
+// Downloads a selected episode of a series
+router.get('/download/episode/:fileName', downloadSingle.DownloadSingle)
 
 // Process a new series uploaded from the client
 router.post('/upload', upload.array('Files'), uploadController.uploadSeries)
