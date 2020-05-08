@@ -2,13 +2,14 @@ const path = require('path')
 const archiver = require('archiver')
 const fs = require('fs-extra')
 const fetch = require('node-fetch')
+const { v4: uuidv4 } = require('uuid')
 
 // define media directory
 const mediaDir = path.join(path.resolve(), 'media')
-const zipFile = path.join(path.resolve(), 'media', 'Episodes.zip')
 
 exports.DownloadAll = async (req, res, next) => {
   try {
+    const zipFile = path.join(path.resolve(), 'media', `Episodes-${uuidv4()}.zip`)
     // Find series in DB
     const response = await fetch(`http://localhost:3000/series/get/${req.params.id}`)
     const data = await response.json()

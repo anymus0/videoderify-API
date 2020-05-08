@@ -10,6 +10,7 @@ const findSeriesController = require('./../controllers/FindSeries')
 const findAllSeriesController = require('./../controllers/FindAllSeries')
 const downloadSingle = require('./../controllers/DownloadSingle')
 const downloadAll = require('./../controllers/DownloadAll')
+const { v4: uuidv4 } = require('uuid')
 
 router.use(cors())
 
@@ -20,8 +21,8 @@ const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, mediaDir)
   },
-  filename: function (req, file, cb) { // space_stripped_str = original_str.replace(/\s/g,'')
-    cb(null, `${Date.now()}-${file.originalname.replace(/\s/g, '')}`)
+  filename: function (req, file, cb) {
+    cb(null, `${uuidv4()}-${file.originalname.replace(/\s/g, '')}`)
   }
 })
 const upload = multer({ storage: storage })
