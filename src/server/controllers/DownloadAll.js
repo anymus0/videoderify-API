@@ -18,7 +18,7 @@ exports.DownloadAll = async (req, res, next) => {
     // Create new archive
     const archive = archiver('zip', {
       gzip: true,
-      zlib: { level: 9 } // Sets the compression level.
+      zlib: { level: 0 } // Sets the compression level.
     })
 
     // When finished, send back the file, then delete it

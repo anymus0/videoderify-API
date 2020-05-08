@@ -12,7 +12,7 @@ app.use('/series', series)
 const start = async () => {
   try {
     // MongoDB server connection setup
-    const MongoUrl = 'mongodb+srv://videoderify:xGdb7Ur5bV0yRlWU@cluster0-dgu2j.gcp.mongodb.net/test?authSource=admin&replicaSet=Cluster0-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true'
+    const MongoUrl = ''
     const mongoDB = MongoUrl
     await mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
     const db = mongoose.connection
