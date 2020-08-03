@@ -2,8 +2,12 @@ const express = require('express')
 const app = express()
 const compression = require('compression')
 const bodyParser = require('body-parser')
-const port = 3000
+const mongoSanitize = require('express-mongo-sanitize')
 const mongoose = require('mongoose')
+const xss = require('xss-clean')
+const port = 3000
+app.use(xss())
+app.use(mongoSanitize())
 app.use(compression())
 app.use(bodyParser.json())
 const series = require('./routes/Series')
