@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const mongoSanitize = require('express-mongo-sanitize')
 const mongoose = require('mongoose')
 const xss = require('xss-clean')
-const port = 3000
+const port = process.env.PORT || 3000
 const dotenv = require('dotenv')
 app.use(xss())
 app.use(mongoSanitize())
@@ -28,8 +28,7 @@ const start = async () => {
     const db = mongoose.connection
     // Bind connection to error event (to get notification of connection errors)
     db.on('error', console.error.bind(console, 'MongoDB connection error:'))
-
-    app.listen(port)
+    await app.listen(port)
   } catch (error) {
     console.error(error)
     process.exit(1)

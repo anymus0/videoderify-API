@@ -9,9 +9,13 @@ const mediaDir = path.join(path.resolve(), 'media')
 
 exports.DownloadAll = async (req, res, next) => {
   try {
-    const zipFile = path.join(path.resolve(), 'media', `Episodes-${uuidv4()}.zip`)
+    const zipFile = path.join(mediaDir, `Episodes-${uuidv4()}.zip`)
     // Find series in DB
-    const response = await fetch(`http://localhost:3000/series/get/${req.params.id}`)
+    const link = `http://localhost:3000/series/get/${req.params.id}`
+    if (process.env.PORT) {
+      link = `http://localhost:${process.env.PORT}/series/get/${req.params.id}`
+    }
+    const response = await fetch(link)
     const data = await response.json()
     const Files = data.Files
 
@@ -43,7 +47,7 @@ exports.DownloadAll = async (req, res, next) => {
     })
 
     // finalize the archive
-    archive.finalize()
+    await archive.finalize()
   } catch (err) {
     res.status(507).json({
       status: false,
