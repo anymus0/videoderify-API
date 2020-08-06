@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const path = require('path')
-const cors = require('cors')
 const multer = require('multer')
 // controllers
 const uploadController = require('./../controllers/Upload')
@@ -12,7 +11,6 @@ const downloadSingle = require('./../controllers/DownloadSingle')
 const downloadAll = require('./../controllers/DownloadAll')
 const { v4: uuidv4 } = require('uuid')
 
-router.use(cors())
 
 // define media directory
 const mediaDir = path.join(path.resolve(), 'media')
