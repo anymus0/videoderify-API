@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const path = require('path')
 const multer = require('multer')
+const fs = require('fs-extra')
+const { v4: uuidv4 } = require('uuid')
 // controllers
 const uploadController = require('./../controllers/Upload')
 const streamController = require('./../controllers/VideoStream')
@@ -9,11 +11,23 @@ const findSeriesController = require('./../controllers/FindSeries')
 const findAllSeriesController = require('./../controllers/FindAllSeries')
 const downloadSingle = require('./../controllers/DownloadSingle')
 const downloadAll = require('./../controllers/DownloadAll')
-const { v4: uuidv4 } = require('uuid')
 
 
-// define media directory
-const mediaDir = path.join(path.resolve(), 'media')
+// define mediaDir
+const mediaDir = process.env.MEDIA_DIR || path.join(path.resolve(), 'media')
+
+// create mediaDir if it doesn't exist yet
+const checkDir = async (dir) => {
+  try {
+    await fs.ensureDir(dir)
+    console.log(`Full path to your media directory: ${dir}`)
+  } catch (err) {
+    console.error(err)
+  }
+}
+checkDir(mediaDir)
+
+
 // define storage for uploading
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

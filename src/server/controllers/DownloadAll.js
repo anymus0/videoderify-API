@@ -4,8 +4,8 @@ const fs = require('fs-extra')
 const fetch = require('node-fetch')
 const { v4: uuidv4 } = require('uuid')
 
-// define media directory
-const mediaDir = path.join(path.resolve(), 'media')
+// define mediaDir
+const mediaDir = process.env.MEDIA_DIR || path.join(path.resolve(), 'media')
 
 exports.DownloadAll = async (req, res, next) => {
   try {

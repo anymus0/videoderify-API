@@ -1,6 +1,8 @@
 const fs = require('fs-extra')
 const path = require('path')
-const mediaDir = path.join(path.resolve(), 'media')
+
+// define mediaDir
+const mediaDir = process.env.MEDIA_DIR || path.join(path.resolve(), 'media')
 
 exports.Stream = async (req, res, next) => {
   try {

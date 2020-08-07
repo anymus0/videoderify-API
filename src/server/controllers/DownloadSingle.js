@@ -1,6 +1,7 @@
 const path = require('path')
-// define media directory
-const mediaDir = path.join(path.resolve(), 'media')
+
+// define mediaDir
+const mediaDir = process.env.MEDIA_DIR || path.join(path.resolve(), 'media')
 
 exports.DownloadSingle = async (req, res, next) => {
   try {
