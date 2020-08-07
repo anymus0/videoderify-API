@@ -6,29 +6,31 @@ const mongoSanitize = require('express-mongo-sanitize')
 const mongoose = require('mongoose')
 const xss = require('xss-clean')
 const port = process.env.PORT || 3000
-const dotenv = require('dotenv')
 app.use(xss())
 app.use(mongoSanitize())
 app.use(compression())
 app.use(bodyParser.json())
+
+// use cors in dev mode only
+if(process.env.NODE_ENV !== "production") {
+  const cors = require('cors')
+  app.use(cors())
+}
+
+// import and use the "/series" route
 const series = require('./routes/Series')
 app.use('/series', series)
 
 const start = async () => {
   try {
-    // parse .env
-    const dotenvConfig = dotenv.config()
-    if (dotenvConfig.error) {
-      throw dotenvConfig.error
-    }
-
     // MongoDB server connection setup
-    const mongoDB = dotenvConfig.parsed.DB_URI
+    const mongoDB = process.env.DB_URI
     await mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
     const db = mongoose.connection
     // Bind connection to error event (to get notification of connection errors)
     db.on('error', console.error.bind(console, 'MongoDB connection error:'))
-    await app.listen(port)
+    console.log(`Server is listening on port ${port}`)
+    app.listen(port)
   } catch (error) {
     console.error(error)
     process.exit(1)
