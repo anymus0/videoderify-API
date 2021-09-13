@@ -6,15 +6,13 @@ const { v4: uuidv4 } = require('uuid')
 
 // define mediaDir
 const mediaDir = process.env.MEDIA_DIR || path.join(path.resolve(), 'media')
+const port = process.env.PORT || 3000
 
 exports.DownloadAll = async (req, res, next) => {
   try {
     const zipFile = path.join(mediaDir, `Episodes-${uuidv4()}.zip`)
     // Find series in DB
-    const link = `http://localhost:3000/series/get/${req.params.id}`
-    if (process.env.PORT) {
-      link = `http://localhost:${process.env.PORT}/series/get/${req.params.id}`
-    }
+    const link = `http://localhost:${port}/series/get/${req.params.id}`
     const response = await fetch(link)
     const data = await response.json()
     const Files = data.Files
