@@ -116,3 +116,5 @@ dist
 
 # ignore everything inside media/ as everything there will be dynamically created
 media/*
+
+dist
