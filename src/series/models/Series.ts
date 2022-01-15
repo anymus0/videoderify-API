@@ -7,7 +7,7 @@ export interface mediaFile {
 }
 
 export interface Series {
-  _id: typeof mongoose.Schema.Types.ObjectId,
+  _id: mongoose.Types.ObjectId,
   name: string;
   description: string;
   thumb: string;
