@@ -3,7 +3,6 @@ import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import multer from 'multer';
 
-
 export const mediaDir = process.env.MEDIA_DIR || path.join(path.resolve(), 'media')
 
 export const checkMediaDir = async () => {
