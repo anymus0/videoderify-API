@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { User } from './../../user/models/User.js'
 
 export interface mediaFile {
   mimetype: string;
@@ -12,4 +13,5 @@ export interface Series {
   description: string;
   thumb: string;
   mediaFiles: mediaFile[];
+  uploadedBy: mongoose.Types.ObjectId | User;
 }

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { seriesModel } from "../schemas/Series.js";
-import { mediaFile } from "../models/Series.js";
+import { userModel } from './../../user/schemas/User.js'
+import { mediaFile, Series } from "../models/Series.js";
 import mongoose from "mongoose";
 
 export const uploadSeries = async (req: Request, res: Response) => {
@@ -17,47 +18,46 @@ export const uploadSeries = async (req: Request, res: Response) => {
       throw "Files should be an array";
     }
     // find if the series already exists in the DB
-    const series = await seriesModel.findOne({ name: name }).exec();
-    if (series) {
-      res.status(400).json({
-        status: {
-          success: false,
-          message: "Already exists!",
-          details: null,
-        },
-        result: series,
-      });
-      return false;
-    } else {
-      // process files
-      const mediaFiles: mediaFile[] = [];
-      Files.forEach((file) => {
-        const mediaFile: mediaFile = {
-          mimetype: file.mimetype,
-          size: file.size,
-          filename: file.filename,
-        };
-        mediaFiles.push(mediaFile);
-      });
-      const newSeries = new seriesModel({
-        _id: new mongoose.Types.ObjectId(),
-        name: name,
-        description: description,
-        thumb: thumb,
-        mediaFiles: mediaFiles,
-      });
-      // save newSeries document in the Series collection
-      await newSeries.save();
-      res.status(200).json({
-        status: {
-          success: true,
-          message: "Series was created and saved!",
-          details: null,
-        },
-        result: newSeries,
-      });
-      return true;
+    const seriesDuplicate = await seriesModel.findOne({ name: name }).exec();
+    if (seriesDuplicate) throw "Already exists!";
+
+    // process files
+    const mediaFiles: mediaFile[] = [];
+    Files.forEach((file) => {
+      const mediaFile: mediaFile = {
+        mimetype: file.mimetype,
+        size: file.size,
+        filename: file.filename,
+      };
+      mediaFiles.push(mediaFile);
+    });
+
+    // find the user uploading the files
+    const userId: string = req.body.userId;
+    const user = await userModel.findById(userId).exec();
+    if (user === undefined || user === null) throw "User was not defined or not found!";
+
+    // create new series instance
+    const series: Series = {
+      _id: new mongoose.Types.ObjectId(),
+      name: name,
+      description: description,
+      thumb: thumb,
+      mediaFiles: mediaFiles,
+      uploadedBy: user._id,
     }
+    const newSeries = new seriesModel(series);
+    // save newSeries document in the Series collection
+    await newSeries.save();
+    res.status(200).json({
+      status: {
+        success: true,
+        message: "Series was created and saved!",
+        details: null,
+      },
+      result: series,
+    });
+    return true;
   } catch (err) {
     res.status(507).json({
       status: {
