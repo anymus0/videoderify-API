@@ -7,6 +7,7 @@ import cors from "cors";
 import helmet from "helmet";
 import { checkMediaDir } from "./global/storage.js";
 // routes
+import userRoute from "./user/routes/index.js";
 import seriesRoute from "./series/routes/Series.js";
 import defaultRoutes from "./global/routes/defaultRoutes.js";
 
@@ -26,6 +27,8 @@ app.use(helmet());
 app.use(ExpressMongoSanitize());
 // parse JSON
 app.use(express.json());
+// user route
+app.use("/user", userRoute);
 // series routes
 app.use("/series", seriesRoute);
 // load default routes last
