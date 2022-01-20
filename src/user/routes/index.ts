@@ -16,7 +16,7 @@ router.get("/getAllUsers", (req: Request, res: Response) => {
 });
 
 // GET /user/getUserById
-router.post("/getUserById", (req: Request, res: Response) => {
+router.get("/getUserById", (req: Request, res: Response) => {
   getUserById(req, res);
 });
 
