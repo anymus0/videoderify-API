@@ -7,3 +7,10 @@ export interface User {
   creationDate: Date;
   passwordHash: string;
 }
+
+export interface UserInfo {
+  _id: mongoose.Types.ObjectId;
+  userName: string;
+  isAdmin: boolean;
+  creationDate: Date;
+}
