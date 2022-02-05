@@ -1,4 +1,5 @@
-import { env } from "process";
+import { env } from 'process';
+import 'dotenv/config'
 import express from "express";
 import compression from "compression";
 import mongoose from "mongoose";

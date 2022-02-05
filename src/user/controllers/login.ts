@@ -1,6 +1,8 @@
+import "dotenv/config";
 import { Request, Response } from "express";
 import { userModel } from "../schemas/User.js";
 import md5 from "md5";
+import jwt from "jsonwebtoken";
 
 export const login = async (req: Request, res: Response) => {
   try {
@@ -9,6 +11,8 @@ export const login = async (req: Request, res: Response) => {
     const userPassword: string = req.body.userPassword;
     if (!userName || !userPassword) throw "Missing variables!";
     const passwordHashFromInput = md5(userPassword);
+    if (process.env.JWT_SECRET === undefined || process.env.JWT_SECRET === null)
+      throw "Server error! Missing JWT secret!";
 
     // query user from DB
     const user = await userModel.findOne({ userName: userName }).exec();
@@ -16,14 +20,18 @@ export const login = async (req: Request, res: Response) => {
       throw "User was not found in the DB!";
 
     if (user.passwordHash !== passwordHashFromInput) throw "Wrong password!";
+
+    // on successful authentication, create JWT token
+    const token = jwt.sign({ userName: userName }, process.env.JWT_SECRET, { expiresIn: '10800s' });
+    
+
     res.status(200).json({
       status: {
         success: true,
         message: "Successful login!",
         details: null,
       },
-      // TODO: result should be a JWT
-      result: null,
+      result: token,
     });
   } catch (err) {
     res
