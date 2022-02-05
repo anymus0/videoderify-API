@@ -3,6 +3,7 @@ import { authenticateToken } from "./../middlewares/authenticateToken.js";
 import { addUser } from "./../controllers/addUser.js";
 import { getAllUsers } from "./../controllers/getAllUsers.js";
 import { getUserById } from "./../controllers/getUserById.js";
+import { getAuthenticatedUser } from './../controllers/getAuthenticatedUser.js';
 import { login } from './../controllers/login.js';
 
 
@@ -23,9 +24,14 @@ router.get("/getAllUsers", authenticateToken, (req: Request, res: Response) => {
   getAllUsers(req, res);
 });
 
-// GET /user/getUserById
-router.get("/getUserById", authenticateToken, (req: Request, res: Response) => {
+// POST /user/getUserById
+router.post("/getUserById", authenticateToken, (req: Request, res: Response) => {
   getUserById(req, res);
+});
+
+// GET /user/getAuthenticatedUser
+router.get("/getAuthenticatedUser", authenticateToken, (req: Request, res: Response) => {
+  getAuthenticatedUser(req, res);
 });
 
 export default router;

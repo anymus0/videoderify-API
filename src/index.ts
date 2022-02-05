@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import ExpressMongoSanitize from "express-mongo-sanitize";
 import cors from "cors";
 import helmet from "helmet";
+import cookieParser from 'cookie-parser';
 import { checkMediaDir } from "./global/storage.js";
 // routes
 import userRoute from "./user/routes/index.js";
@@ -28,6 +29,8 @@ app.use(helmet());
 app.use(ExpressMongoSanitize());
 // parse JSON
 app.use(express.json());
+// parse cookies
+app.use(cookieParser());
 // user route
 app.use("/user", userRoute);
 // series routes

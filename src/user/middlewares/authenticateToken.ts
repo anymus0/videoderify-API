@@ -8,16 +8,18 @@ export const authenticateToken = async (
   next: NextFunction
 ) => {
   try {
-    const authToken = req.headers.authorization;
+    const authToken: string = req.cookies.JWT_TOKEN;
     if (authToken === undefined || authToken === null)
-      throw "Authorization header is missing!";
+      throw "Authorization cookie is missing!";
     if (process.env.JWT_SECRET === undefined || process.env.JWT_SECRET === null)
       throw "Server error! Missing JWT secret!";
-    jwt.verify(authToken, process.env.JWT_SECRET, (err, user) => {
-      if (err) throw err;
-      req.body.user = user;
-      next();
-    });
+
+    const token = jwt.verify(authToken, process.env.JWT_SECRET);
+    if (token === undefined || token === null || typeof token === "string")
+      throw "Server Error! JWT payload was not found!";
+    const userId: string = token["userId"];
+    req.body.jwtUserId = userId;
+    next();
   } catch (error) {
     res
       .status(401)

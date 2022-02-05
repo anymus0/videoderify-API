@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { mediaFileUpload } from '../../global/storage.js';
 import { isAdmin } from './../../user/middlewares/isAdmin.js'
+import { authenticateToken } from './../../user/middlewares/authenticateToken.js'
 
 // controller imports //
 import { uploadSeries } from '../controllers/Upload.js';
@@ -16,7 +17,7 @@ const router = Router();
 // Routes //
 
 // Process a new series uploaded from the client
-router.post('/upload', mediaFileUpload.array('Files'), isAdmin, (req, res) => {
+router.post('/upload', mediaFileUpload.array('Files'), authenticateToken, isAdmin, (req, res) => {
   uploadSeries(req, res);
 })
 
