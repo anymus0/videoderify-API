@@ -16,7 +16,7 @@ export const getUserById = async (req: Request, res: Response) => {
       creationDate: user.creationDate
     }
 
-    res.status(500).json({
+    res.status(200).json({
       status: {
         success: true,
         message: "User was found!",
