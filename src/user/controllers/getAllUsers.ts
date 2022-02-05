@@ -7,7 +7,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
     const users = await userModel.find({}).exec();
     if (users === undefined || users === null || users.length <= 0) throw "No user was found!";
 
-    res.status(500).json({
+    res.status(200).json({
       status: {
         success: true,
         message: "Users were found!",
