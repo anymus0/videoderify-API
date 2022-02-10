@@ -7,7 +7,7 @@ export const authenticateToken = async (
   res: Response,
   next: NextFunction
 ) => {
-  try {
+  try {    
     const authToken: string = req.cookies.JWT_TOKEN;
     if (authToken === undefined || authToken === null)
       throw "Authorization cookie is missing!";

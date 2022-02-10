@@ -22,10 +22,13 @@ export const login = async (req: Request, res: Response) => {
     if (user.passwordHash !== passwordHashFromInput) throw "Wrong password!";
 
     // on successful authentication, create JWT token
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '10800s' });
-    
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "10800s",
+    });
+
     const expireDate = new Date();
-    expireDate.setDate(expireDate.getDate()+1);
+    expireDate.setDate(expireDate.getDate() + 1);
+
     res.cookie("JWT_TOKEN", token, {
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
@@ -38,7 +41,7 @@ export const login = async (req: Request, res: Response) => {
         message: "Successful login!",
         details: null,
       },
-      result: token,
+      result: null,
     });
   } catch (err) {
     res

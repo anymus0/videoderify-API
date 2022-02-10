@@ -5,6 +5,8 @@ import { getAllUsers } from "./../controllers/getAllUsers.js";
 import { getUserById } from "./../controllers/getUserById.js";
 import { getAuthenticatedUser } from './../controllers/getAuthenticatedUser.js';
 import { login } from './../controllers/login.js';
+import { logout } from './../controllers/logout.js';
+
 
 
 const router = Router();
@@ -12,6 +14,11 @@ const router = Router();
 // POST /user/login
 router.post("/login", (req: Request, res: Response) => {
   login(req, res)
+});
+
+// GET /user/logout
+router.get("/logout", (req: Request, res: Response) => {
+  logout(req, res)
 });
 
 // POST /user/addUser
