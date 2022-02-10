@@ -19,7 +19,8 @@ const port = env.PORT || 3000;
 const app = express();
 // use cors in dev mode only
 if (env.NODE_ENV !== "production") {
-  app.use(cors());
+  app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+  console.log("using CORS");
 }
 // compress every request
 app.use(compression());
