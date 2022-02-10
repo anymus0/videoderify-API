@@ -17,7 +17,7 @@ const router = Router();
 // Routes //
 
 // Process a new series uploaded from the client
-router.post('/upload', mediaFileUpload.array('Files'), authenticateToken, isAdmin, (req, res) => {
+router.post('/upload', authenticateToken, mediaFileUpload.array('Files'), isAdmin, (req, res) => {
   uploadSeries(req, res);
 })
 
