@@ -17,11 +17,9 @@ import defaultRoutes from "./global/routes/defaultRoutes.js";
 const port = env.PORT || 3000;
 // init express app
 const app = express();
-// use cors in dev mode only
-if (env.NODE_ENV !== "production") {
-  app.use(cors({ origin: "http://localhost:3000", credentials: true }));
-  console.log("using CORS");
-}
+// use cors
+const origin = env.ORIGIN || "http://localhost:3000";
+app.use(cors({ origin: origin, credentials: true }));
 // compress every request
 app.use(compression());
 // add set of security features
