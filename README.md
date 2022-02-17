@@ -56,4 +56,5 @@ The URL of the front-end client.
 # Notes
 - Windows support should be possible, however I've only tested it in a Unix envrionment so far.
 - Setting `MEDIA_DIR` will not work in WSL2 and should not be included in `.env` so it can fallback to the default path.
-- When you add a user manually, the password must be converted into a `bcrypt` hash with 10 rounds on the client.
+- The user password should be converted from plain-text to `SHA256` with upper-case letters on the client before sending it in the request body!
+  <br> Example: if user types `asd` the server should get `688787D8FF144C502C7F5CFFAAFE2CC588D86079F9DE88304C26B0CB99CE91C6`
