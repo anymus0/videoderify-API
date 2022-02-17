@@ -3,6 +3,11 @@ This is the API for my video sharing platform: Videoderify
 
 You can find the [client here](https://github.com/anymus0/videoderify-react-client)!
 
+# Commands
+- To start the dev server: `npm run dev`
+- Production server: I recommend using a daemon like [Forver](https://www.npmjs.com/package/forever), but you can customize you're production build however you want.
+  <br>Forever example: `tsc && forever --workingDir /var/www/videoderify-API start /var/www/videoderify-API/dist/index.js`
+
 # Environment variables
 You can see the set of env variables in `.env.example`, copy this file into `.env` and provide your own details in it.
 
@@ -47,3 +52,8 @@ The URL of the front-end client.
 - ~~Rewrite API in Typescript and new structure~~
 - ~~create user module with login/logout and auth~~
 - calculate current and max storage capacity based on which drive the server is running on
+
+# Notes
+- Windows support should be possible, however I've only tested it in a Unix envrionment so far.
+- Setting `MEDIA_DIR` will not work in WSL2 and should not be included in `.env` so it can fallback to the default path.
+- When you add a user manually, the password must be converted into a `bcrypt` hash with 10 rounds on the client.

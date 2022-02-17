@@ -1,17 +1,17 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import md5 from "md5";
+import bcrypt from "bcrypt";
 import { userModel } from "./../schemas/User.js";
 import { User } from "../models/User.js";
 
 export const addUser = async (req: Request, res: Response) => {
   try {
     // process inputs
+    if (!req.body.userName || !req.body.isAdmin || !req.body.password)
+    throw "Necessary variable is missing!";
     const userName: string = req.body.userName;
     const isAdmin: boolean = req.body.isAdmin;
     const password: string = req.body.password;
-    if (!userName || !isAdmin || !password)
-      throw "Necessary variable is missing!";
 
     // check if user already exists
     const userDuplicate = await userModel.findOne({ userName: userName }).exec();
@@ -22,7 +22,7 @@ export const addUser = async (req: Request, res: Response) => {
       userName: userName,
       isAdmin: isAdmin,
       creationDate: new Date(),
-      passwordHash: md5(password),
+      passwordHash: await bcrypt.hash(password.toUpperCase(), 10),
     };
 
     const newUser = new userModel(user);
