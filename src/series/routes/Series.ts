@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { mediaFileUpload } from '../../global/storage.js';
 import { isAdmin } from './../../user/middlewares/isAdmin.js'
-import { authenticateToken } from './../../user/middlewares/authenticateToken.js'
+import { authenticateToken } from '../../global/middlewares/authenticateToken.js'
 
 // controller imports //
 import { uploadSeries } from '../controllers/Upload.js';

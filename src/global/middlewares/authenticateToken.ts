@@ -7,7 +7,21 @@ export const authenticateToken = async (
   res: Response,
   next: NextFunction
 ) => {
-  try {    
+  try {
+    // API_KEY overrides and skips JWT_TOKEN authentication
+    const apiKeyInput = req.headers.api_key;    
+    const API_KEY = process.env.API_KEY;
+    if (
+      API_KEY !== null &&
+      API_KEY !== undefined &&
+      apiKeyInput !== null &&
+      apiKeyInput !== undefined &&
+      apiKeyInput === API_KEY
+    ) {
+      next();
+      return true;
+    }
+
     const authToken: string = req.cookies.JWT_TOKEN;
     if (authToken === undefined || authToken === null)
       throw "Authorization cookie is missing!";
@@ -20,6 +34,7 @@ export const authenticateToken = async (
     const userId: string = token["userId"];
     req.body.jwtUserId = userId;
     next();
+    return true;
   } catch (error) {
     res
       .status(401)

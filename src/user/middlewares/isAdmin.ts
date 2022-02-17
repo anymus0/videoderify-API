@@ -17,6 +17,7 @@ export const isAdmin = async (
 
     if (user.isAdmin) {
       next();
+      return true;
     } else {
       res
         .status(403)

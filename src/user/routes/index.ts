@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { authenticateToken } from "./../middlewares/authenticateToken.js";
+import { authenticateToken } from "../../global/middlewares/authenticateToken.js";
 import { addUser } from "./../controllers/addUser.js";
 import { getAllUsers } from "./../controllers/getAllUsers.js";
 import { getUserById } from "./../controllers/getUserById.js";
