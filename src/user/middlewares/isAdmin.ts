@@ -8,7 +8,7 @@ export const isAdmin = async (
 ) => {
   try {
     // query user from DB
-    const userId: boolean = req.body.userId;
+    const userId: string = req.body.userId;
     if (!userId) throw "Missing userId variable!";
 
     const user = await userModel.findById(userId).exec();
