@@ -9,18 +9,18 @@ export const authenticateToken = async (
 ) => {
   try {
     // API_KEY overrides and skips JWT_TOKEN authentication
-    const apiKeyInput = req.headers.api_key;    
-    const API_KEY = process.env.API_KEY;
-    if (
-      API_KEY !== null &&
-      API_KEY !== undefined &&
-      apiKeyInput !== null &&
-      apiKeyInput !== undefined &&
-      apiKeyInput === API_KEY
-    ) {
-      next();
-      return true;
-    }
+    // const apiKeyInput = req.headers.api_key;    
+    // const API_KEY = process.env.API_KEY;
+    // if (
+    //   API_KEY !== null &&
+    //   API_KEY !== undefined &&
+    //   apiKeyInput !== null &&
+    //   apiKeyInput !== undefined &&
+    //   apiKeyInput === API_KEY
+    // ) {
+    //   next();
+    //   return true;
+    // }
 
     const authToken: string = req.cookies.JWT_TOKEN;
     if (authToken === undefined || authToken === null)

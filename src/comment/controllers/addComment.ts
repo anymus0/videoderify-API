@@ -8,12 +8,12 @@ import { seriesModel } from "./../../series/schemas/Series.js";
 export const addComment = async (req: Request, res: Response) => {
   try {
     // process inputs
-    if (!req.body.text || !req.body.commentedBy || !req.params.seriesId) {
+    if (!req.body.text || !req.body.jwtUserId  || !req.params.seriesId) {
       throw "Missing variables!";
     }
 
     // find the user uploading the comment
-    const user = await userModel.findById(req.body.commentedBy).exec();
+    const user = await userModel.findById(req.body.jwtUserId).exec();
     if (user === undefined || user === null)
       throw "User was not defined or not found!";
 
