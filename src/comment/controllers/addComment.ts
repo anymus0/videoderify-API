@@ -38,13 +38,22 @@ export const addComment = async (req: Request, res: Response) => {
         { $push: { comments: [newComment._id] } }
       )
       .exec();
+
+    // get populated newComment for response
+    const populatedNewComment: Comment = {
+      _id: newComment._id,
+      text: newComment.text,
+      date: newComment.date,
+      commentedBy: user,
+    }
+
     res.status(200).json({
       status: {
         success: true,
         message: "Comment was posted successfully!",
         details: null,
       },
-      result: newComment,
+      result: populatedNewComment,
     });
     return true;
   } catch (error) {
