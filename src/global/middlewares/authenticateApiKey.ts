@@ -8,7 +8,7 @@ export const authenticateApiKey = async (
 ) => {
   try {
     // check keys
-    const apiKeyInput = req.headers.api_key;
+    const apiKeyInput = req.headers["api-key"];
     const API_KEY = process.env.API_KEY;
     if (apiKeyInput !== API_KEY) throw "Wrong API_KEY!";
     // simulate user
