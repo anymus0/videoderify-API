@@ -28,7 +28,7 @@ router.post(
 );
 
 router.delete(
-  "/deleteComment/:commentId",
+  "/deleteComment/:seriesId/:commentId",
   authenticateToken,
   isSameUser,
   (req: Request, res: Response) => {
@@ -37,7 +37,7 @@ router.delete(
 );
 
 router.delete(
-  "/deleteCommentAdmin/:commentId",
+  "/deleteCommentAdmin/:seriesId/:commentId",
   authenticateToken,
   isAdmin,
   (req: Request, res: Response) => {
@@ -46,7 +46,7 @@ router.delete(
 );
 
 router.delete(
-  "/deleteCommentDev/:commentId",
+  "/deleteCommentDev/:seriesId/:commentId",
   authenticateApiKey,
   (req: Request, res: Response) => {
     deleteComment(req, res);
