@@ -45,6 +45,7 @@ export const uploadSeries = async (req: Request, res: Response) => {
       thumb: thumb,
       mediaFiles: mediaFiles,
       uploadedBy: user._id,
+      comments: [],
     }
     const newSeries = new seriesModel(series);
     // save newSeries document in the Series collection
