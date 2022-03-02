@@ -8,7 +8,7 @@ import { seriesModel } from "./../../series/schemas/Series.js";
 export const addComment = async (req: Request, res: Response) => {
   try {
     // process inputs
-    if (!req.body.text || !req.body.jwtUserId  || !req.params.seriesId) {
+    if (!req.body.text || !req.body.jwtUserId || !req.params.seriesId) {
       throw "Missing variables!";
     }
 
@@ -32,7 +32,7 @@ export const addComment = async (req: Request, res: Response) => {
     const series = await seriesModel.findById(req.params.seriesId).exec();
     if (series === undefined || series === null)
       throw "Specific series was not found!";
-    await series
+    await seriesModel
       .updateOne(
         { _id: req.params.seriesId },
         { $push: { comments: [newComment._id] } }
