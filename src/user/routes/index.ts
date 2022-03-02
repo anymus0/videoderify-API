@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { authenticateToken } from "../../global/middlewares/authenticateToken.js";
+import { authenticateApiKey } from "../../global/middlewares/authenticateApiKey.js";
 import { addUser } from "./../controllers/addUser.js";
 import { getAllUsers } from "./../controllers/getAllUsers.js";
 import { getUserById } from "./../controllers/getUserById.js";
@@ -25,6 +26,12 @@ router.get("/logout", (req: Request, res: Response) => {
 router.post("/addUser", authenticateToken, (req: Request, res: Response) => {
   addUser(req, res);
 });
+
+// POST /user/addUserAdmin
+router.post("/addUserAdmin", authenticateApiKey, (req: Request, res: Response) => {
+  addUser(req, res);
+});
+
 
 // GET /user/getAllUsers
 router.get("/getAllUsers", authenticateToken, (req: Request, res: Response) => {
