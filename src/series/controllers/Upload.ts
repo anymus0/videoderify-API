@@ -33,7 +33,7 @@ export const uploadSeries = async (req: Request, res: Response) => {
     });
 
     // find the user uploading the files
-    const userId: string = req.body.jwtUserId;
+    const userId = req.headers.jwtUserId;
     const user = await userModel.findById(userId).exec();
     if (user === undefined || user === null) throw "User was not defined or not found!";
 

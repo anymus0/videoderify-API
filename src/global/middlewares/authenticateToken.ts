@@ -19,6 +19,7 @@ export const authenticateToken = async (
       throw "Server Error! JWT payload was not found!";
     const userId: string = token["userId"];
     req.body.jwtUserId = userId;
+    req.headers.jwtUserId = userId;
     next();
     return true;
   } catch (error) {
