@@ -32,7 +32,7 @@ router.get("/getAllUsers", authenticateToken, (req: Request, res: Response) => {
 });
 
 // POST /user/getUserById
-router.post("/getUserById", authenticateToken, (req: Request, res: Response) => {
+router.post("/getUserById/:userId", authenticateToken, (req: Request, res: Response) => {
   getUserById(req, res);
 });
 
