@@ -12,7 +12,7 @@ router.post("/addComment/:seriesId", authenticateToken, (req: Request, res: Resp
   addComment(req, res);
 });
 
-router.post("/deleteComment/:commentId", authenticateToken, (req: Request, res: Response) => {
+router.delete("/deleteComment/:commentId", authenticateToken, (req: Request, res: Response) => {
   deleteComment(req, res);
 });
 
