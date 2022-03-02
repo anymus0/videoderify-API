@@ -7,7 +7,7 @@ import { authenticateToken } from '../../global/middlewares/authenticateToken.js
 import { uploadSeries } from '../controllers/Upload.js';
 import { DownloadSingle } from '../controllers/DownloadSingle.js';
 import { DownloadAll } from '../controllers/DownloadAll.js';
-import { FindSeriesbyID } from '../controllers/FindSeries.js';
+import { findSeries } from '../controllers/FindSeries.js';
 import { FindAllSeries } from '../controllers/FindAllSerieses.js';
 import { Stream } from '../controllers/VideoStream.js';
 
@@ -38,7 +38,7 @@ router.get('/video/:fileName', (req, res) => {
 
 // Get a specific object by its id
 router.get('/get/:id', (req, res) => {
-  FindSeriesbyID(req, res)
+  findSeries(req, res)
 })
 
 // Get all the objects in the "Serieses" array

@@ -1,34 +1,23 @@
 import { Request, Response } from "express";
 import { seriesModel } from "../schemas/Series.js";
 import { Series } from "./../models/Series.js";
-import { userModel } from "./../../user/schemas/User.js";
-import { UserInfo } from "./../../user/models/User.js";
+import fetch from 'node-fetch';
+import { SeriesResponse } from './../models/SeriesResponse.js'
 
 export const FindAllSeries = async (req: Request, res: Response) => {
   try {
+    const port = process.env.PORT || 3000;
     // find every series
     const seriesesQuery = await seriesModel.find({}).exec();
-    // populate uploadedBy fields
+    // get populated serieses with the 'findSeries' controller
     const serieses: Series[] = [];
-    for (const series of seriesesQuery) {
-      const uploadedBy = await userModel.findById(series.uploadedBy).exec();
-      if (uploadedBy === undefined || uploadedBy === null)
-        throw "DB error, uploader was not found!";
-      const userInfo: UserInfo = {
-        _id: uploadedBy._id,
-        userName: uploadedBy.userName,
-        isAdmin: uploadedBy.isAdmin,
-        creationDate: uploadedBy.creationDate,
-      };
-      const populatedSeries: Series = {
-        _id: series._id,
-        name: series.name,
-        description: series.description,
-        thumb: series.thumb,
-        mediaFiles: series.mediaFiles,
-        uploadedBy: userInfo,
-      };
-      serieses.push(populatedSeries);
+    for (const seriesQuery of seriesesQuery) {
+      const seriesUrl = `http://localhost:${port}/series/get/${seriesQuery._id}`;
+      const seriesResponse = await fetch(seriesUrl);
+      const series = (await seriesResponse.json() as SeriesResponse);
+      if (series.result !== null) {
+        serieses.push(series.result);
+      }
     }
 
     res.status(200).json({

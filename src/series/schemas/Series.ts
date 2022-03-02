@@ -7,7 +7,8 @@ const seriesSchema = new mongoose.Schema({
   description: { type: String, required: false },
   thumb: { type: String, required: true },
   mediaFiles: { type: Array, required: true },
-  uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+  uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  comments: { type: [mongoose.Schema.Types.ObjectId], ref: 'Comment' },
 })
 
-export const seriesModel: mongoose.Model<Series, {}, {}, {}> = mongoose.model('Serieses', seriesSchema);
+export const seriesModel: mongoose.Model<Series, {}, {}, {}> = mongoose.model('Series', seriesSchema);

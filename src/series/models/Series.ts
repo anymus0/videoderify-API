@@ -1,5 +1,6 @@
-import mongoose from 'mongoose';
-import { UserInfo } from './../../user/models/User.js'
+import mongoose from "mongoose";
+import { UserInfo } from "./../../user/models/User.js";
+import { Comment } from './../../comment/models/Comment.js'
 
 export interface mediaFile {
   mimetype: string;
@@ -8,10 +9,11 @@ export interface mediaFile {
 }
 
 export interface Series {
-  _id: mongoose.Types.ObjectId,
+  _id: mongoose.Types.ObjectId;
   name: string;
   description: string;
   thumb: string;
   mediaFiles: mediaFile[];
-  uploadedBy: mongoose.Types.ObjectId | UserInfo;
+  uploadedBy: mongoose.Types.ObjectId | UserInfo | null;
+  comments: mongoose.Types.ObjectId[] | Comment[];
 }
