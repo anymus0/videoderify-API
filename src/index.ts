@@ -11,6 +11,7 @@ import { checkMediaDir } from "./global/storage.js";
 // routes
 import userRoute from "./user/routes/index.js";
 import seriesRoute from "./series/routes/Series.js";
+import commentRoute from './comment/routes/index.js';
 import defaultRoutes from "./global/routes/defaultRoutes.js";
 
 // define port
@@ -34,6 +35,8 @@ app.use(cookieParser());
 app.use("/user", userRoute);
 // series routes
 app.use("/series", seriesRoute);
+// comment routes
+app.use("/comment", commentRoute);
 // load default routes last
 app.use("/", defaultRoutes);
 
