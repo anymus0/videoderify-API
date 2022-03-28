@@ -3,6 +3,8 @@ This is the API for my video sharing platform: Videoderify
 
 You can find the [client here](https://github.com/anymus0/videoderify-react-client)!
 
+Hungarian documentation: https://docs.google.com/document/d/1gM2D4UT4Nmsp2_NNMkDKA_SSPEygwGvw/edit?usp=sharing&ouid=109008074089397749737&rtpof=true&sd=true
+
 # Commands
 - To start the dev server: `npm run dev`
 - Production server: I recommend using a daemon like [Forver](https://www.npmjs.com/package/forever), but you can customize you're production build however you want.
