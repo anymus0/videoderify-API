@@ -1,6 +1,10 @@
 # videoderify-API
 This is the API for my video sharing platform: Videoderify 
 
+DEMO: https://videoderify.lagooncompany.xyz/
+username: admin
+password: asd
+
 You can find the [client here](https://github.com/anymus0/videoderify-react-client)!
 
 Hungarian documentation: https://docs.google.com/document/d/1gM2D4UT4Nmsp2_NNMkDKA_SSPEygwGvw/edit?usp=sharing&ouid=109008074089397749737&rtpof=true&sd=true
