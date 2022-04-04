@@ -42,7 +42,7 @@ router.post(
 );
 
 // GET /user/getAllUsers
-router.get("/getAllUsers", authenticateToken, (req: Request, res: Response) => {
+router.get("/getAllUsers", isAdmin, authenticateToken, (req: Request, res: Response) => {
   getAllUsers(req, res);
 });
 
