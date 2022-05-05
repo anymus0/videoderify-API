@@ -1,13 +1,15 @@
 # videoderify-API
 This is the API for my video sharing platform: Videoderify 
 
-DEMO: https://videoderify.lagooncompany.xyz/
-username: admin
-password: asd
+## Hungarian documents:
+- Hungarian documents can be found in the `zd_Dokumentumok` directory.
+
+## Demo:
+https://videoderify.lagooncompany.xyz/<br>
+username: admin<br>
+password: asd<br>
 
 You can find the [client here](https://github.com/anymus0/videoderify-react-client)!
-
-Hungarian documentation: https://drive.google.com/file/d/1_KPTgzFjyA9JBjZcLUcxQ7k0oJYiuBWE/view?usp=sharing
 
 # Commands
 - To start the dev server: `npm run dev`
