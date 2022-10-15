@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
-import { Comment } from './../models/Comment.js'
+import { Comment } from '../models/Comment';
 
-const commentSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
+const commentSchema: mongoose.Schema<Comment> = new mongoose.Schema({
+  _id: mongoose.Types.ObjectId,
   text: { type: String, required: true },
   date: { type: Date, required: true },
-  commentedBy: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' }
+  commentedBy: { type: mongoose.Types.ObjectId, required: true, ref: 'User' }
 });
 
-export const commentModel: mongoose.Model<Comment, {}, {}, {}> = mongoose.model('Comment', commentSchema);
+export const commentModel = mongoose.model('Comment', commentSchema);

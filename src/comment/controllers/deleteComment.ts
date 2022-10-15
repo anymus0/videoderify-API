@@ -17,8 +17,8 @@ export const deleteComment = async (req: Request, res: Response) => {
     await seriesModel.updateOne(
       { _id: req.params.seriesId },
       {
-        $pullAll: {
-          comments: [{_id: req.params.commentId}],
+        $pull: {
+          comments: req.params.commentId,
         },
       }
     );

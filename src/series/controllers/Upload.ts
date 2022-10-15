@@ -25,6 +25,7 @@ export const uploadSeries = async (req: Request, res: Response) => {
     const mediaFiles: mediaFile[] = [];
     Files.forEach((file) => {
       const mediaFile: mediaFile = {
+        _id: new mongoose.Types.ObjectId(),
         mimetype: file.mimetype,
         size: file.size,
         filename: file.filename,

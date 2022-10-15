@@ -37,7 +37,7 @@ export const addComment = async (req: Request, res: Response) => {
         { _id: req.params.seriesId },
         { $push: { comments: [newComment._id] } }
       )
-      .exec();
+      .exec();      
 
     // get populated newComment for response
     const populatedNewComment: Comment = {

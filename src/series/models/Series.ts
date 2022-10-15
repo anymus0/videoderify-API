@@ -3,6 +3,7 @@ import { UserInfo } from "./../../user/models/User.js";
 import { Comment } from './../../comment/models/Comment.js'
 
 export interface mediaFile {
+  _id: mongoose.Types.ObjectId;
   mimetype: string;
   size: number;
   filename: string;
